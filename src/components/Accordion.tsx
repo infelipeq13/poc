@@ -20,8 +20,8 @@ export const Accordion = ({ children, isInitiallyOpen, title }: Props) => {
     <div className="bg-gray-100 rounded-lg">
       <button
         className={clsx(
-          "flex items-center justify-between w-full p-4 rounded-lg",
-          isOpen ? "bg-gray-200" : "bg-gray-100"
+          "flex items-center justify-between w-full p-4",
+          isOpen ? "bg-gray-200 rounded-t-lg" : "bg-gray-100 rounded-lg"
         )}
         type="button"
         onClick={toggleIsOpen}

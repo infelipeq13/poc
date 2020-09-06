@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 
+import { Badge } from "src/components/Badge";
 import { Button } from "src/components/Button";
 import { Field } from "src/components/Field";
 
@@ -12,9 +13,11 @@ type Props = {
   onSubmit: (formData: FormData) => void;
 };
 
-export const CaptureDataForm = ({ onSubmit: handleSubmit }: Props) => {
-  const [amountSpent, setAmountSpent] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+export const CaptureDataForm = ({ onSubmit }: Props) => {
+  const { errors, handleSubmit, register, reset } = useForm<FormData>({
+    mode: "onBlur",
+    reValidateMode: "onChange",
+  });
 
   return (
     <>
@@ -22,38 +25,33 @@ export const CaptureDataForm = ({ onSubmit: handleSubmit }: Props) => {
         Dados de captura
       </h2>
       <p className="mb-4 text-sm font-normal leading-6 text-gray-800">
-        Comece informando o{" "}
-        <span className="font-medium">telefone celular</span> e o{" "}
-        <span className="font-medium">valor gasto</span>. Depois, selecione{" "}
-        <span className="font-medium text-blue-600">Buscar cliente</span>. Após
-        confirmar ou inserir os dados, selecione{" "}
-        <span className="font-medium text-blue-600">Capturar cliente</span>.
+        Comece informando o <Badge>telefone celular</Badge> e o{" "}
+        <Badge>valor gasto</Badge>. Depois, selecione{" "}
+        <Badge color="blue">Buscar cliente</Badge>. Após confirmar ou inserir os
+        dados, selecione <Badge color="blue">Capturar cliente</Badge>.
       </p>
-      <form
-        className="space-y-4"
-        onSubmit={(e) => {
-          e.preventDefault();
-
-          handleSubmit({ amountSpent, phoneNumber });
-        }}
-      >
+      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <Field
+          ref={register({
+            required: true,
+          })}
           columnSpan={5}
+          errorMessage={errors.phoneNumber && "Campo obrigatório"}
+          hint="Somente números"
           isMonoFont
           label="Telefone celular"
-          value={phoneNumber}
-          onChange={(e) => {
-            setPhoneNumber(e.currentTarget.value);
-          }}
+          name="phoneNumber"
         />
         <Field
+          ref={register({
+            required: true,
+          })}
           columnSpan={3}
+          errorMessage={errors.amountSpent && "Campo obrigatório"}
+          hint="Somente números"
           isMonoFont
           label="Valor gasto"
-          value={amountSpent}
-          onChange={(e) => {
-            setAmountSpent(e.currentTarget.value);
-          }}
+          name="amountSpent"
         />
         <div className="space-y-2">
           <Button isExpanded>Buscar cliente</Button>
@@ -62,8 +60,7 @@ export const CaptureDataForm = ({ onSubmit: handleSubmit }: Props) => {
             isSecondary
             type="button"
             onClick={() => {
-              setAmountSpent("");
-              setPhoneNumber("");
+              reset();
             }}
           >
             Limpar formulário

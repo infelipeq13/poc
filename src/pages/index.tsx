@@ -6,60 +6,56 @@ import { PersonalInfoForm } from "src/components/PersonalInfoForm";
 import type { CaptureData, User } from "src/types";
 
 enum Step {
-  CAPTURE_DATA = "CAPTURE_DATA",
-  PERSONAL_INFO = "PERSONAL_INFO",
+  CAPTURE_DATA,
+  PERSONAL_INFO,
 }
 
-const defaultCaptureData = {
+const emptyCaptureData = {
   amountSpent: "",
   phoneNumber: "",
 };
 
-const defaultUser = {
+const emptyUser = {
   dateOfBirth: "",
   fullName: "",
 };
 
 const HomePage = () => {
-  const [captureData, setCaptureData] = useState<CaptureData>(
-    defaultCaptureData
-  );
-  const [currentStep, setCurrentStep] = useState<Step>(Step.CAPTURE_DATA);
-  const [user, setUser] = useState<User>(defaultUser);
+  const [captureData, setCaptureData] = useState<CaptureData>(emptyCaptureData);
+  const [step, setStep] = useState<Step>(Step.CAPTURE_DATA);
+  const [user, setUser] = useState<User>(emptyUser);
 
-  const reset = () => {
-    setCaptureData(defaultCaptureData);
-    setUser(defaultUser);
-
-    // Update current step.
-    setCurrentStep(Step.CAPTURE_DATA);
+  const resetAllData = () => {
+    setCaptureData(emptyCaptureData);
+    setStep(Step.CAPTURE_DATA);
+    setUser(emptyUser);
   };
 
   return (
     <Layout title="Captura de cliente">
-      {currentStep === Step.CAPTURE_DATA && (
+      {step === Step.CAPTURE_DATA && (
         <CaptureDataForm
           onSubmit={({ amountSpent, phoneNumber }) => {
             setCaptureData({ amountSpent, phoneNumber });
 
-            // TODO: Fetch user by phone number.
+            // TODO: Attempt to fetch user by phone number.
             setTimeout(() => {
-              setCurrentStep(Step.PERSONAL_INFO);
+              setStep(Step.PERSONAL_INFO);
             }, 1000);
           }}
         />
       )}
-      {currentStep === Step.PERSONAL_INFO && (
+      {step === Step.PERSONAL_INFO && (
         <PersonalInfoForm
           captureData={captureData}
           user={user}
-          onCancel={() => {
-            reset();
+          onCancelCapture={() => {
+            resetAllData();
           }}
           onSubmit={({ dateOfBirth, fullName }) => {
-            reset();
+            resetAllData();
 
-            // TODO: Confirmation dialog.
+            // TODO: Show confirmation dialog.
             alert("!");
 
             // TODO: Update personal information if needed.
