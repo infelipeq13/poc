@@ -8,3 +8,7 @@ export const findErrorMessage = (type?: string) => {
       return "";
   }
 };
+
+export const removeNotNumber = (value: string = "") => {
+  return value.replace(/[^0-9]+/g, "");
+};

@@ -4,13 +4,13 @@ import { useState } from "react";
 import { Icon } from "src/components/Icon";
 
 type Props = {
-  isInitiallyOpen?: boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  isOpenByDefault?: boolean;
   title: string;
 };
 
-export const Accordion = ({ children, isInitiallyOpen, title }: Props) => {
-  const [isOpen, setIsOpen] = useState(isInitiallyOpen);
+export const Accordion = ({ children, isOpenByDefault, title }: Props) => {
+  const [isOpen, setIsOpen] = useState(isOpenByDefault);
 
   const toggleIsOpen = () => {
     setIsOpen(!isOpen);
@@ -34,7 +34,7 @@ export const Accordion = ({ children, isInitiallyOpen, title }: Props) => {
           name={isOpen ? "minusCircle" : "plusCircle"}
         />
       </button>
-      {isOpen && children}
+      <div className={isOpen ? "block" : "hidden"}>{children}</div>
     </div>
   );
 };

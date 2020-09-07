@@ -1,6 +1,6 @@
 export type CaptureData = {
   amountSpent: string;
-  mobilePhoneNumber: string;
+  phoneNumber: string;
 };
 
 export type User = {
