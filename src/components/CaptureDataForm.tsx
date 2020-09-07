@@ -69,7 +69,7 @@ export const CaptureDataForm = ({ onSubmit }: Props) => {
               <Field
                 columnSpan={3}
                 errorMessage={findErrorMessage(errors.amountSpent?.type)}
-                hint="Somente números"
+                hint="Sem centavos"
                 isMonoFont
                 label="Valor gasto"
                 mask={currencyMask}
