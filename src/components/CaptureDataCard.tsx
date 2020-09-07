@@ -10,6 +10,8 @@ export const CaptureDataCard = ({
   mobilePhoneNumber,
   ...rest
 }: Props) => {
+  const endsWithDecimal = /,\d{2}/.test(amountSpent);
+
   return (
     <Card {...rest}>
       <h2 className="text-lg font-medium leading-7 text-gray-900">
@@ -22,7 +24,9 @@ export const CaptureDataCard = ({
         </div>
         <div className="flex space-x-2 text-sm leading-6">
           <dt className="font-medium text-gray-900">Valor gasto:</dt>
-          <dd className="font-mono text-gray-800">{amountSpent}</dd>
+          <dd className="font-mono text-gray-800">
+            {endsWithDecimal ? amountSpent : `${amountSpent},00`}
+          </dd>
         </div>
       </dl>
     </Card>

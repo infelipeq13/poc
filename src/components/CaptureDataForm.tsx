@@ -4,6 +4,7 @@ import { Badge } from "src/components/Badge";
 import { Button } from "src/components/Button";
 import { Field } from "src/components/Field";
 import { findErrorMessage } from "src/utils/helpers/findErrorMessage";
+import { currencyMask } from "src/utils/masks/currencyMask";
 import { validateMobilePhoneNumberFormat } from "src/utils/validators/mobilePhoneNumber";
 
 type FormData = {
@@ -16,7 +17,7 @@ type Props = {
 };
 
 export const CaptureDataForm = ({ onSubmit }: Props) => {
-  const { control, errors, handleSubmit, register, reset } = useForm<FormData>({
+  const { control, errors, handleSubmit, reset } = useForm<FormData>({
     mode: "onBlur",
     reValidateMode: "onChange",
   });
@@ -59,16 +60,26 @@ export const CaptureDataForm = ({ onSubmit }: Props) => {
             },
           }}
         />
-        <Field
-          ref={register({
-            required: true,
-          })}
-          columnSpan={3}
-          errorMessage={findErrorMessage(errors.amountSpent?.type)}
-          hint="Somente números"
-          isMonoFont
-          label="Valor gasto"
+        <Controller
+          control={control}
+          defaultValue=""
           name="amountSpent"
+          render={(props) => {
+            return (
+              <Field
+                columnSpan={3}
+                errorMessage={findErrorMessage(errors.amountSpent?.type)}
+                hint="Somente números"
+                isMonoFont
+                label="Valor gasto"
+                mask={currencyMask}
+                {...props}
+              />
+            );
+          }}
+          rules={{
+            required: true,
+          }}
         />
         <div className="space-y-2">
           <Button isExpanded>Buscar cliente</Button>

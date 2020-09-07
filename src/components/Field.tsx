@@ -16,7 +16,7 @@ interface Props extends React.ComponentPropsWithoutRef<"input"> {
 
 type Ref = HTMLInputElement;
 
-const convertMaskToRegExpArray = (mask: string) => {
+const convertMaskToArray = (mask: string) => {
   return mask.split("").map((char) => {
     switch (char) {
       case "#":
@@ -92,7 +92,11 @@ export const Field = forwardRef<Ref, Props>(
         </label>
         {mask ? (
           <MaskedInput
-            mask={Array.isArray(mask) ? mask : convertMaskToRegExpArray(mask)}
+            mask={
+              Array.isArray(mask) || typeof mask === "function"
+                ? mask
+                : convertMaskToArray(mask)
+            }
             {...commonProps}
             {...rest}
           />

@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import { Button } from "src/components/Button";
 import { CaptureDataForm } from "src/components/CaptureDataForm";
 import { Layout } from "src/components/Layout";
 import { PersonalInfoForm } from "src/components/PersonalInfoForm";
