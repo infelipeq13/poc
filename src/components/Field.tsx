@@ -59,6 +59,7 @@ export const Field = forwardRef<Ref, Props>(
       isMonoFont,
       label,
       mask,
+      type = "text",
       ...rest
     },
     ref
@@ -76,6 +77,8 @@ export const Field = forwardRef<Ref, Props>(
       ),
       id: inputId.current,
     };
+    const isTypeSupported =
+      mask && ["password", "search", "tel", "text", "url"].includes(type);
 
     return (
       <div className="grid grid-cols-8 space-y-1">
@@ -97,11 +100,12 @@ export const Field = forwardRef<Ref, Props>(
                 ? mask
                 : convertMaskToArray(mask)
             }
+            type={isTypeSupported ? type : "text"}
             {...commonProps}
             {...rest}
           />
         ) : (
-          <input ref={ref} {...commonProps} {...rest} />
+          <input ref={ref} type={type} {...commonProps} {...rest} />
         )}
         {errorMessage && (
           <span className="col-span-8 text-sm leading-6 text-red-800">
