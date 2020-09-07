@@ -83,19 +83,17 @@ export const PersonalInfoForm = ({
             />
           </div>
         </Accordion>
-        <div className="space-y-2">
-          <Button isExpanded>Capturar cliente</Button>
-          <Button
-            isExpanded
-            isSecondary
-            type="button"
-            onClick={() => {
-              handleCancelCapture();
-            }}
-          >
-            Cancelar captura
-          </Button>
-        </div>
+        <Button isExpanded>Capturar cliente</Button>
+        <Button
+          isExpanded
+          isSecondary
+          type="button"
+          onClick={() => {
+            handleCancelCapture();
+          }}
+        >
+          Cancelar captura
+        </Button>
       </form>
     </>
   );

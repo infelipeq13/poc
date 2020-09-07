@@ -81,19 +81,17 @@ export const CaptureDataForm = ({ onSubmit }: Props) => {
             required: true,
           }}
         />
-        <div className="space-y-2">
-          <Button isExpanded>Buscar cliente</Button>
-          <Button
-            isExpanded
-            isSecondary
-            type="button"
-            onClick={() => {
-              reset();
-            }}
-          >
-            Limpar formulário
-          </Button>
-        </div>
+        <Button isExpanded>Buscar cliente</Button>
+        <Button
+          isExpanded
+          isSecondary
+          type="button"
+          onClick={() => {
+            reset();
+          }}
+        >
+          Limpar formulário
+        </Button>
       </form>
     </>
   );

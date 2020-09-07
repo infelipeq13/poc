@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-interface Props extends React.ComponentProps<"div"> {}
+type Props = React.ComponentProps<"div">;
 
 export const Card = ({ className, ...rest }: Props) => {
   return (
