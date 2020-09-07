@@ -2,12 +2,12 @@ import { Card } from "src/components/Card";
 
 interface Props extends React.ComponentProps<"div"> {
   amountSpent: string;
-  phoneNumber: string;
+  mobilePhoneNumber: string;
 }
 
 export const CaptureDataCard = ({
   amountSpent,
-  phoneNumber,
+  mobilePhoneNumber,
   ...rest
 }: Props) => {
   return (
@@ -18,7 +18,7 @@ export const CaptureDataCard = ({
       <dl>
         <div className="flex space-x-2 text-sm leading-6">
           <dt className="font-medium text-gray-900">Telefone celular:</dt>
-          <dd className="font-mono text-gray-800">{phoneNumber}</dd>
+          <dd className="font-mono text-gray-800">{mobilePhoneNumber}</dd>
         </div>
         <div className="flex space-x-2 text-sm leading-6">
           <dt className="font-medium text-gray-900">Valor gasto:</dt>

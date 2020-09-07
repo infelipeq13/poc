@@ -35,7 +35,7 @@ export const PersonalInfoForm = ({
       <CaptureDataCard
         amountSpent={captureData.amountSpent}
         className="mb-4"
-        phoneNumber={captureData.phoneNumber}
+        mobilePhoneNumber={captureData.mobilePhoneNumber}
       />
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <Accordion

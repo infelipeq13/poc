@@ -6,7 +6,7 @@ import { Field } from "src/components/Field";
 
 type FormData = {
   amountSpent: string;
-  phoneNumber: string;
+  mobilePhoneNumber: string;
 };
 
 type Props = {
@@ -34,12 +34,12 @@ export const CaptureDataForm = ({ onSubmit }: Props) => {
         <Controller
           control={control}
           defaultValue=""
-          name="phoneNumber"
+          name="mobilePhoneNumber"
           render={(props) => {
             return (
               <Field
                 columnSpan={5}
-                errorMessage={errors.phoneNumber && "Campo obrigatório"}
+                errorMessage={errors.mobilePhoneNumber && "Campo obrigatório"}
                 hint="Somente números"
                 isMonoFont
                 label="Telefone celular"

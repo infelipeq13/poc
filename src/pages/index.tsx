@@ -13,7 +13,7 @@ enum Step {
 
 const emptyCaptureData = {
   amountSpent: "",
-  phoneNumber: "",
+  mobilePhoneNumber: "",
 };
 
 const emptyUser = {
@@ -36,8 +36,8 @@ const HomePage = () => {
     <Layout title="Captura de cliente">
       {step === Step.CAPTURE_DATA && (
         <CaptureDataForm
-          onSubmit={({ amountSpent, phoneNumber }) => {
-            setCaptureData({ amountSpent, phoneNumber });
+          onSubmit={({ amountSpent, mobilePhoneNumber }) => {
+            setCaptureData({ amountSpent, mobilePhoneNumber });
 
             // TODO: Attempt to fetch user by phone number.
             setTimeout(() => {
