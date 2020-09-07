@@ -16,7 +16,12 @@ export const Icon = ({ className = "", name }: Props) => {
   const path = paths[name];
 
   return (
-    <svg className={className} fill="currentColor" viewBox="0 0 20 20">
+    <svg
+      className={className}
+      fill="currentColor"
+      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path clipRule="evenodd" d={path} fillRule="evenodd" />
     </svg>
   );
