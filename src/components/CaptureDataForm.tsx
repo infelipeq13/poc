@@ -3,6 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Badge } from "src/components/Badge";
 import { Button } from "src/components/Button";
 import { Field } from "src/components/Field";
+import { validateMobilePhoneNumberFormat } from "src/utils/validators/mobilePhoneNumber";
 
 type FormData = {
   amountSpent: string;
@@ -39,7 +40,13 @@ export const CaptureDataForm = ({ onSubmit }: Props) => {
             return (
               <Field
                 columnSpan={5}
-                errorMessage={errors.mobilePhoneNumber && "Campo obrigatório"}
+                errorMessage={
+                  errors.mobilePhoneNumber?.type === "format"
+                    ? "Formato inválido"
+                    : errors.mobilePhoneNumber?.type === "required"
+                    ? "Campo obrigatório"
+                    : ""
+                }
                 hint="Somente números"
                 isMonoFont
                 label="Telefone celular"
@@ -48,7 +55,14 @@ export const CaptureDataForm = ({ onSubmit }: Props) => {
               />
             );
           }}
-          rules={{ required: true }}
+          rules={{
+            required: true,
+            validate: {
+              format: (mobilePhoneNumber) => {
+                return validateMobilePhoneNumberFormat(mobilePhoneNumber);
+              },
+            },
+          }}
         />
         <Field
           ref={register({
