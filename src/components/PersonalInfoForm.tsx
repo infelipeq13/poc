@@ -5,6 +5,7 @@ import { Badge } from "src/components/Badge";
 import { Button } from "src/components/Button";
 import { CaptureDataCard } from "src/components/CaptureDataCard";
 import { Field } from "src/components/Field";
+import { findErrorMessage } from "src/utils/helpers/findErrorMessage";
 import { validateDateFormat } from "src/utils/validators/date";
 import type { CaptureData, User } from "src/types";
 
@@ -63,13 +64,7 @@ export const PersonalInfoForm = ({
                 return (
                   <Field
                     columnSpan={4}
-                    errorMessage={
-                      errors.birthday?.type === "format"
-                        ? "Formato inválido"
-                        : errors.birthday?.type === "required"
-                        ? "Campo obrigatório"
-                        : ""
-                    }
+                    errorMessage={findErrorMessage(errors.birthday?.type)}
                     hint="Opcional"
                     isMonoFont
                     label="Data de aniversário"
@@ -81,7 +76,7 @@ export const PersonalInfoForm = ({
               rules={{
                 validate: {
                   format: (date) => {
-                    return validateDateFormat(date);
+                    return validateDateFormat(date, true);
                   },
                 },
               }}

@@ -3,6 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Badge } from "src/components/Badge";
 import { Button } from "src/components/Button";
 import { Field } from "src/components/Field";
+import { findErrorMessage } from "src/utils/helpers/findErrorMessage";
 import { validateMobilePhoneNumberFormat } from "src/utils/validators/mobilePhoneNumber";
 
 type FormData = {
@@ -40,13 +41,7 @@ export const CaptureDataForm = ({ onSubmit }: Props) => {
             return (
               <Field
                 columnSpan={5}
-                errorMessage={
-                  errors.mobilePhoneNumber?.type === "format"
-                    ? "Formato inválido"
-                    : errors.mobilePhoneNumber?.type === "required"
-                    ? "Campo obrigatório"
-                    : ""
-                }
+                errorMessage={findErrorMessage(errors.mobilePhoneNumber?.type)}
                 hint="Somente números"
                 isMonoFont
                 label="Telefone celular"
@@ -69,7 +64,7 @@ export const CaptureDataForm = ({ onSubmit }: Props) => {
             required: true,
           })}
           columnSpan={3}
-          errorMessage={errors.amountSpent && "Campo obrigatório"}
+          errorMessage={findErrorMessage(errors.amountSpent?.type)}
           hint="Somente números"
           isMonoFont
           label="Valor gasto"
