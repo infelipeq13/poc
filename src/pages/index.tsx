@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { Button } from "src/components/Button";
 import { CaptureDataForm } from "src/components/CaptureDataForm";
 import { Layout } from "src/components/Layout";
 import { PersonalInfoForm } from "src/components/PersonalInfoForm";
@@ -16,7 +17,7 @@ const emptyCaptureData = {
 };
 
 const emptyUser = {
-  dateOfBirth: "",
+  birthday: "",
   fullName: "",
 };
 
@@ -52,14 +53,14 @@ const HomePage = () => {
           onCancelCapture={() => {
             resetAllData();
           }}
-          onSubmit={({ dateOfBirth, fullName }) => {
+          onSubmit={({ birthday, fullName }) => {
             resetAllData();
 
             // TODO: Show confirmation dialog.
             alert("!");
 
             // TODO: Update personal information if needed.
-            setUser({ dateOfBirth, fullName });
+            setUser({ birthday, fullName });
           }}
         />
       )}

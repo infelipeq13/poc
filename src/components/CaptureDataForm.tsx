@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 import { Badge } from "src/components/Badge";
 import { Button } from "src/components/Button";
@@ -14,7 +14,7 @@ type Props = {
 };
 
 export const CaptureDataForm = ({ onSubmit }: Props) => {
-  const { errors, handleSubmit, register, reset } = useForm<FormData>({
+  const { control, errors, handleSubmit, register, reset } = useForm<FormData>({
     mode: "onBlur",
     reValidateMode: "onChange",
   });
@@ -31,16 +31,24 @@ export const CaptureDataForm = ({ onSubmit }: Props) => {
         dados, selecione <Badge color="blue">Capturar cliente</Badge>.
       </p>
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-        <Field
-          ref={register({
-            required: true,
-          })}
-          columnSpan={5}
-          errorMessage={errors.phoneNumber && "Campo obrigatório"}
-          hint="Somente números"
-          isMonoFont
-          label="Telefone celular"
+        <Controller
+          control={control}
+          defaultValue=""
           name="phoneNumber"
+          render={(props) => {
+            return (
+              <Field
+                columnSpan={5}
+                errorMessage={errors.phoneNumber && "Campo obrigatório"}
+                hint="Somente números"
+                isMonoFont
+                label="Telefone celular"
+                mask="(##) # ####-####"
+                {...props}
+              />
+            );
+          }}
+          rules={{ required: true }}
         />
         <Field
           ref={register({

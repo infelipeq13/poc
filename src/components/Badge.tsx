@@ -11,7 +11,7 @@ const getColors = (color?: Color) => {
     case "blue":
       return "text-blue-600 bg-blue-100";
     case "gray":
-      return "text-gray-800 bg-gray-100";
+      return "text-gray-800 bg-gray-200";
   }
 };
 

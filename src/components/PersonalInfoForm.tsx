@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 import { Accordion } from "src/components/Accordion";
 import { Badge } from "src/components/Badge";
@@ -7,10 +7,7 @@ import { CaptureDataCard } from "src/components/CaptureDataCard";
 import { Field } from "src/components/Field";
 import type { CaptureData, User } from "src/types";
 
-type FormData = {
-  dateOfBirth: string;
-  fullName: string;
-};
+type FormData = User;
 
 type Props = {
   captureData: CaptureData;
@@ -25,16 +22,13 @@ export const PersonalInfoForm = ({
   onCancelCapture: handleCancelCapture,
   onSubmit,
 }: Props) => {
-  const { handleSubmit, register } = useForm<FormData>({
-    defaultValues: {
-      dateOfBirth: user.dateOfBirth,
-      fullName: user.fullName,
-    },
+  const { control, errors, handleSubmit, register } = useForm<FormData>({
+    defaultValues: user,
     mode: "onBlur",
     reValidateMode: "onChange",
   });
 
-  const hasPersonalInfoFilled = user.dateOfBirth && user.fullName;
+  const hasPersonalInfoFilled = user.birthday && user.fullName;
 
   return (
     <>
@@ -51,7 +45,7 @@ export const PersonalInfoForm = ({
           <div className="p-4 space-y-4">
             <p className="mb-4 text-sm leading-6 text-gray-800">
               O <Badge>nome completo</Badge> e a{" "}
-              <Badge>data de nascimento</Badge> podem ser usados para estreitar
+              <Badge>data de aniversário</Badge> podem ser usados para estreitar
               a relação com seu cliente. Você pode atualizar ambos sempre que
               necessário.
             </p>
@@ -61,13 +55,22 @@ export const PersonalInfoForm = ({
               label="Nome completo"
               name="fullName"
             />
-            <Field
-              ref={register}
-              columnSpan={4}
-              hint="Opcional"
-              isMonoFont
-              label="Data de nascimento"
-              name="dateOfBirth"
+            <Controller
+              control={control}
+              name="birthday"
+              render={(props) => {
+                return (
+                  <Field
+                    columnSpan={4}
+                    errorMessage={errors.birthday && "Campo obrigatório"}
+                    hint="Opcional"
+                    isMonoFont
+                    label="Data de aniversário"
+                    mask="##/##/####"
+                    {...props}
+                  />
+                );
+              }}
             />
           </div>
         </Accordion>

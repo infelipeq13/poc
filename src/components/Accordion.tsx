@@ -20,7 +20,7 @@ export const Accordion = ({ children, isInitiallyOpen, title }: Props) => {
     <div className="bg-gray-100 rounded-lg">
       <button
         className={clsx(
-          "flex items-center justify-between w-full p-4",
+          "flex items-center justify-between w-full p-4 transition duration-200 ease-in-out",
           isOpen ? "bg-gray-200 rounded-t-lg" : "bg-gray-100 rounded-lg"
         )}
         type="button"

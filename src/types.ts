@@ -4,6 +4,6 @@ export type CaptureData = {
 };
 
 export type User = {
-  dateOfBirth: string;
+  birthday: string;
   fullName: string;
 };
