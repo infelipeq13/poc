@@ -7,34 +7,13 @@ import { Badge } from "src/components/Badge";
 import { Button } from "src/components/Button";
 import { Field } from "src/components/Field";
 import { Layout } from "src/components/Layout";
-import { PHONE_NUMBER_LENGTH } from "src/utils/constants";
+import { findCustomerByPhoneNumber } from "src/services/customer";
 import { findErrorMessage, removeNotNumber } from "src/utils/helpers";
 import { currencyMask } from "src/utils/masks";
 import { validateDateFormat, validatePhoneNumber } from "src/utils/validators";
-import type { CaptureData, Customer } from "src/types";
+import type { Customer, ScoreData } from "src/types";
 
-type FormData = CaptureData & Customer;
-
-// Mocked data.
-const customer1: Customer = {
-  birthday: "13/09/1994",
-  fullName: "Felipe Gomes de Oliveira",
-};
-
-const customer2: Customer = {
-  birthday: "13/09/1994",
-  fullName: "",
-};
-
-const customer3: Customer = {
-  birthday: "",
-  fullName: "Felipe Gomes de Oliveira",
-};
-
-const customer4: Customer = {
-  birthday: "",
-  fullName: "",
-};
+type FormData = Customer & ScoreData;
 
 const HomePage = () => {
   const {
@@ -57,58 +36,32 @@ const HomePage = () => {
   });
   const [customer, setCustomer] = useState<Customer>();
 
-  // Needed in order to populate (or erase) fields after fetching (or removing) the customer.
   useEffect(() => {
     if (customer) {
-      if (numbers === "11911111111") {
-        setValue("birthday", customer1.birthday);
-        setValue("fullName", customer1.fullName);
-      }
-
-      if (numbers === "22922222222") {
-        setValue("birthday", customer2.birthday);
-        setValue("fullName", customer2.fullName);
-      }
-
-      if (numbers === "33933333333") {
-        setValue("birthday", customer3.birthday);
-        setValue("fullName", customer3.fullName);
-      }
-
-      if (numbers === "44944444444") {
-        setValue("birthday", customer4.birthday);
-        setValue("fullName", customer4.fullName);
-      }
+      setValue("birthday", customer.birthday);
+      setValue("fullName", customer.fullName);
     }
   }, [customer]);
 
-  const hasPersonalInfo = !!(customer?.birthday && customer.fullName);
-  const numbers = removeNotNumber(watch("phoneNumber"));
-  const shouldEraseCustomer =
-    numbers.length !== PHONE_NUMBER_LENGTH && customer;
-  const shouldFetchCustomer =
-    numbers.length === PHONE_NUMBER_LENGTH && !customer;
+  useEffect(() => {
+    const phoneNumber = removeNotNumber(watch("phoneNumber"));
+    const isValid = validatePhoneNumber(phoneNumber);
+    const shouldErase = !isValid && customer;
+    const shouldFetch = isValid && !customer;
 
-  if (shouldFetchCustomer) {
-    // TODO: Placeholder code. Should fetch customer by phone number.
-    if (numbers === "11911111111") {
-      setCustomer(customer1);
-    }
+    const fetchData = async () => {
+      const customer = await findCustomerByPhoneNumber(phoneNumber);
 
-    if (numbers === "22922222222") {
-      setCustomer(customer2);
-    }
+      setCustomer(customer);
+    };
 
-    if (numbers === "33933333333") {
-      setCustomer(customer3);
+    if (shouldErase) {
+      reset();
+      setCustomer(undefined);
+    } else if (shouldFetch) {
+      fetchData();
     }
-
-    if (numbers === "44944444444") {
-      setCustomer(customer4);
-    }
-  } else if (shouldEraseCustomer) {
-    setCustomer(undefined);
-  }
+  });
 
   return (
     <>
@@ -175,10 +128,7 @@ const HomePage = () => {
             }}
           />
           {customer && (
-            <Accordion
-              isOpenByDefault={!hasPersonalInfo}
-              title="Informações pessoais"
-            >
+            <Accordion isOpenByDefault title="Informações pessoais">
               <div className="p-4 space-y-4">
                 <p className="mb-4 text-sm leading-6 text-gray-800">
                   O <Badge>nome completo</Badge> e a{" "}
@@ -229,7 +179,7 @@ const HomePage = () => {
               setCustomer(undefined);
             }}
           >
-            Limpar formulário
+            Reiniciar formulário
           </Button>
         </form>
       </Layout>
