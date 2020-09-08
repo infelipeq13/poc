@@ -3,7 +3,7 @@ export type CaptureData = {
   phoneNumber: string;
 };
 
-export type User = {
+export type Customer = {
   birthday: string;
   fullName: string;
 };

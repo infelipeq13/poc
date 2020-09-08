@@ -11,27 +11,27 @@ import { PHONE_NUMBER_LENGTH } from "src/utils/constants";
 import { findErrorMessage, removeNotNumber } from "src/utils/helpers";
 import { currencyMask } from "src/utils/masks";
 import { validateDateFormat, validatePhoneNumber } from "src/utils/validators";
-import type { CaptureData, User } from "src/types";
+import type { CaptureData, Customer } from "src/types";
 
-type FormData = CaptureData & User;
+type FormData = CaptureData & Customer;
 
 // Mocked data.
-const user1: User = {
+const customer1: Customer = {
   birthday: "13/09/1994",
   fullName: "Felipe Gomes de Oliveira",
 };
 
-const user2: User = {
+const customer2: Customer = {
   birthday: "13/09/1994",
   fullName: "",
 };
 
-const user3: User = {
+const customer3: Customer = {
   birthday: "",
   fullName: "Felipe Gomes de Oliveira",
 };
 
-const user4: User = {
+const customer4: Customer = {
   birthday: "",
   fullName: "",
 };
@@ -55,57 +55,59 @@ const HomePage = () => {
     mode: "onBlur",
     reValidateMode: "onChange",
   });
-  const [user, setUser] = useState<User>();
+  const [customer, setCustomer] = useState<Customer>();
 
-  // Needed in order to populate (or erase) fields after fetching (or removing) the user.
+  // Needed in order to populate (or erase) fields after fetching (or removing) the customer.
   useEffect(() => {
-    if (user) {
+    if (customer) {
       if (numbers === "11911111111") {
-        setValue("birthday", user1.birthday);
-        setValue("fullName", user1.fullName);
+        setValue("birthday", customer1.birthday);
+        setValue("fullName", customer1.fullName);
       }
 
       if (numbers === "22922222222") {
-        setValue("birthday", user2.birthday);
-        setValue("fullName", user2.fullName);
+        setValue("birthday", customer2.birthday);
+        setValue("fullName", customer2.fullName);
       }
 
       if (numbers === "33933333333") {
-        setValue("birthday", user3.birthday);
-        setValue("fullName", user3.fullName);
+        setValue("birthday", customer3.birthday);
+        setValue("fullName", customer3.fullName);
       }
 
       if (numbers === "44944444444") {
-        setValue("birthday", user4.birthday);
-        setValue("fullName", user4.fullName);
+        setValue("birthday", customer4.birthday);
+        setValue("fullName", customer4.fullName);
       }
     }
-  }, [user]);
+  }, [customer]);
 
-  const hasPersonalInfo = !!(user?.birthday && user.fullName);
+  const hasPersonalInfo = !!(customer?.birthday && customer.fullName);
   const numbers = removeNotNumber(watch("phoneNumber"));
-  const shouldEraseUser = numbers.length !== PHONE_NUMBER_LENGTH && user;
-  const shouldFetchUser = numbers.length === PHONE_NUMBER_LENGTH && !user;
+  const shouldEraseCustomer =
+    numbers.length !== PHONE_NUMBER_LENGTH && customer;
+  const shouldFetchCustomer =
+    numbers.length === PHONE_NUMBER_LENGTH && !customer;
 
-  if (shouldFetchUser) {
-    // TODO: Placeholder code. Should fetch user by phone number.
+  if (shouldFetchCustomer) {
+    // TODO: Placeholder code. Should fetch customer by phone number.
     if (numbers === "11911111111") {
-      setUser(user1);
+      setCustomer(customer1);
     }
 
     if (numbers === "22922222222") {
-      setUser(user2);
+      setCustomer(customer2);
     }
 
     if (numbers === "33933333333") {
-      setUser(user3);
+      setCustomer(customer3);
     }
 
     if (numbers === "44944444444") {
-      setUser(user4);
+      setCustomer(customer4);
     }
-  } else if (shouldEraseUser) {
-    setUser(undefined);
+  } else if (shouldEraseCustomer) {
+    setCustomer(undefined);
   }
 
   return (
@@ -172,7 +174,7 @@ const HomePage = () => {
               required: true,
             }}
           />
-          {user && (
+          {customer && (
             <Accordion
               isOpenByDefault={!hasPersonalInfo}
               title="Informações pessoais"
@@ -224,7 +226,7 @@ const HomePage = () => {
             type="button"
             onClick={() => {
               reset();
-              setUser(undefined);
+              setCustomer(undefined);
             }}
           >
             Limpar formulário
