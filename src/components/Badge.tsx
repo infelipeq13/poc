@@ -2,9 +2,10 @@ import clsx from "clsx";
 
 type Color = "blue" | "gray";
 
-interface Props extends React.ComponentProps<"span"> {
+type Props = {
+  children?: React.ReactNode;
   color?: Color;
-}
+};
 
 const getColors = (color?: Color) => {
   switch (color) {

@@ -1,7 +1,7 @@
-import clsx from "clsx";
+type Props = {
+  children?: React.ReactNode;
+};
 
-type Props = React.ComponentProps<"main">;
-
-export const Container = ({ className, ...rest }: Props) => {
-  return <main className={clsx("max-w-md p-4 mx-auto", className)} {...rest} />;
+export const Container = (props: Props) => {
+  return <main className="max-w-md p-4 mx-auto" {...props} />;
 };
