@@ -6,7 +6,6 @@ const paths = {
 };
 
 export type IconName = keyof typeof paths;
-
 type Props = {
   className?: string;
   name: IconName;

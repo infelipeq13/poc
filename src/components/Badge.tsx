@@ -1,7 +1,6 @@
 import clsx from "clsx";
 
 type Color = "blue" | "gray";
-
 type Props = {
   children?: React.ReactNode;
   color?: Color;

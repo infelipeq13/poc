@@ -1,3 +1,4 @@
+import { removeNotNumber } from "src/utils/helpers";
 import type { Customer } from "src/types";
 
 // Mocked data.
@@ -22,9 +23,11 @@ const customer4: Customer = {
 };
 
 export const findCustomerByPhoneNumber = (phoneNumber: string) => {
+  const numbers = removeNotNumber(phoneNumber);
+
   return new Promise<Customer>((resolve) => {
     setTimeout(() => {
-      switch (phoneNumber) {
+      switch (numbers) {
         case "11911111111":
           resolve(customer1);
           break;

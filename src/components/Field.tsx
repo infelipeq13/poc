@@ -4,7 +4,7 @@ import MaskedInput from "react-text-mask";
 import uid from "uid";
 
 type ColumnSpan = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
-
+type Ref = HTMLInputElement;
 interface Props extends React.ComponentPropsWithoutRef<"input"> {
   columnSpan?: ColumnSpan;
   errorMessage?: string;
@@ -13,8 +13,6 @@ interface Props extends React.ComponentPropsWithoutRef<"input"> {
   mask?: string | (RegExp | string)[];
   label: string;
 }
-
-type Ref = HTMLInputElement;
 
 const convertMaskToArray = (mask: string) => {
   return mask.split("").map((char) => {
@@ -76,14 +74,15 @@ export const Field = forwardRef<Ref, Props>(
         getColumnSpan(columnSpan)
       ),
       id: inputId.current,
+      ...rest,
     };
     const isTypeSupported =
       mask && ["password", "search", "tel", "text", "url"].includes(type);
 
     return (
-      <div className="grid grid-cols-8 space-y-1">
+      <div className="space-y-1">
         <label
-          className="col-span-8 text-sm font-medium leading-6 text-gray-900"
+          className="text-sm font-medium leading-6 text-gray-900"
           htmlFor={inputId.current}
         >
           {label}
@@ -93,24 +92,23 @@ export const Field = forwardRef<Ref, Props>(
             </span>
           )}
         </label>
-        {mask ? (
-          <MaskedInput
-            mask={
-              Array.isArray(mask) || typeof mask === "function"
-                ? mask
-                : convertMaskToArray(mask)
-            }
-            type={isTypeSupported ? type : "text"}
-            {...commonProps}
-            {...rest}
-          />
-        ) : (
-          <input ref={ref} type={type} {...commonProps} {...rest} />
-        )}
+        <div className="grid grid-cols-8">
+          {mask ? (
+            <MaskedInput
+              mask={
+                Array.isArray(mask) || typeof mask === "function"
+                  ? mask
+                  : convertMaskToArray(mask)
+              }
+              type={isTypeSupported ? type : "text"}
+              {...commonProps}
+            />
+          ) : (
+            <input ref={ref} type={type} {...commonProps} />
+          )}
+        </div>
         {errorMessage && (
-          <span className="col-span-8 text-sm leading-6 text-red-800">
-            {errorMessage}
-          </span>
+          <span className="text-sm leading-6 text-red-800">{errorMessage}</span>
         )}
       </div>
     );
