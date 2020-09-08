@@ -24,7 +24,9 @@ export const PersonalDataForm = ({
   onCancelScore: handleCancelScore,
   onSubmit,
 }: Props) => {
-  const { control, errors, handleSubmit, register } = useForm<FormData>({
+  const { control, errors, formState, handleSubmit, register } = useForm<
+    FormData
+  >({
     defaultValues: customer,
     mode: "onBlur",
     reValidateMode: "onChange",
@@ -79,7 +81,9 @@ export const PersonalDataForm = ({
             />
           </div>
         </Accordion>
-        <Button isExpanded>Capturar cliente</Button>
+        <Button isExpanded isLoading={formState.isSubmitting}>
+          Capturar cliente
+        </Button>
         <Button
           isExpanded
           isSecondary

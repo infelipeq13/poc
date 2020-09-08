@@ -15,14 +15,16 @@ type Props = {
 };
 
 export const ScoreDataForm = ({ onSubmit }: Props) => {
-  const { control, errors, handleSubmit, reset } = useForm<FormData>({
-    defaultValues: {
-      amountSpent: "",
-      phoneNumber: "",
-    },
-    mode: "onBlur",
-    reValidateMode: "onChange",
-  });
+  const { control, errors, formState, handleSubmit, reset } = useForm<FormData>(
+    {
+      defaultValues: {
+        amountSpent: "",
+        phoneNumber: "",
+      },
+      mode: "onBlur",
+      reValidateMode: "onChange",
+    }
+  );
 
   return (
     <>
@@ -82,7 +84,9 @@ export const ScoreDataForm = ({ onSubmit }: Props) => {
             required: true,
           }}
         />
-        <Button isExpanded>Procurar cliente</Button>
+        <Button isExpanded isLoading={formState.isSubmitting}>
+          Procurar cliente
+        </Button>
         <Button
           isExpanded
           isSecondary
